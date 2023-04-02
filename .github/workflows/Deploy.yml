@@ -1,0 +1,18 @@
+name: Deployment Exercise 1 #Ponemos el nombre
+on: push #Luego el evento que dispara el workflow, en esta caso es cuando se hace un commit
+jobs: #Jobs, pues donde estan
+  deploy: #Nombre del primer Job
+    runs-on: ubuntu-latest #En donde se va a correr dicho Job, En este caso es Linux
+    steps: #palabra reservada para los steps
+      - name: Get code #La primer accion, o step, o funcion llamemosle
+        uses: actions/checkout@v3  #En esta, la primer accion es clonar el repo en la VM, como es una accion, o funcion reservada, se usa Uses, en lugar de Run
+      - name: Install NodeJS #Una vez montamos el repo en la VM, necesitamos descargar las dependencias necesarias para poder hacer que el codigo funcione
+        run: npm ci #En este caso no se instala una dependencia especifica, es por ello que no se usa una palabra reservada, u "accion", es por ello que se utiliza otra palabra reservada desde la shell, la cual instala toodas las dependencias de este proyecto, la cual es npm ci
+      - name: Lint #Ahora si, hacemos el testeo de cada seccion: Lint, Test, Deploy
+        run: npm run lint #Utilizamos npm run ____ para correr el script especificado
+      - name: Test code
+        run: npm run test #Hacemos lo mismo para test, podemos no poner run, ya que NodeJS lo soporta
+      - name:  Build code #Lo mismo, pero para build
+        run: npm run build
+      - name: Deploy code #simula el deploy, pero dentro de todo un mismo job llamado deploy, se puede hacer aparte
+        run: echo "Deploying..."
