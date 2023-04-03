@@ -1,0 +1,8 @@
+name: Handle issues #Se le pone el nombre al workflow que se dispara cuando hay algun issue, y solo lo muestra como info
+on: issues #Se le pone como trigger "issues", el cual es soportado y reservado por github
+jobs:
+  output-info: #Nombre del job
+    runs-on: ubuntu-latest
+    steps: #tasks o eventos
+      - name: Output event details
+        run: echo "${{toJSON(github.event)}}" #Con el signo de $ podemos acceder a objetos especiales, en este caso al ambiente de ejecucion, que junto con toJSON, muestra la info del ambiente en forma de tabla, y haciendo referencia a la clase .event, se dispara y muestra UNICAMENTE el evento github.event
